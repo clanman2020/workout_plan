@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import type { Dispatch, SetStateAction } from "react";
 import { useEffect, useState } from "react";
 import { Shell } from "@/components/Shell";
 import { createId } from "@/lib/id";
@@ -18,52 +19,15 @@ function emptyExercise(): Exercise {
   };
 }
 
-export default function ProgramEditorPage() {
-  const params = useParams();
-  const router = useRouter();
-  const id = typeof params.id === "string" ? params.id : "";
-  const [program, setProgram] = useState<Program | null>(null);
+type EditorProps = {
+  program: Program;
+  setProgram: Dispatch<SetStateAction<Program | null>>;
+};
+
+function ProgramEditorLoaded({ program, setProgram }: EditorProps) {
   const [savedAt, setSavedAt] = useState<string | null>(null);
-  const [status, setStatus] = useState<"loading" | "missing" | "ready">("loading");
-
-  useEffect(() => {
-    if (!id) {
-      router.replace("/");
-      return;
-    }
-    const p = loadState().programs.find((x) => x.id === id);
-    if (!p) {
-      setProgram(null);
-      setStatus("missing");
-      return;
-    }
-    setProgram(JSON.parse(JSON.stringify(p)) as Program);
-    setStatus("ready");
-  }, [id, router]);
-
-  if (!id) return null;
-
-  if (status === "loading") {
-    return (
-      <Shell>
-        <p className="text-[var(--muted)]">Loading…</p>
-      </Shell>
-    );
-  }
-
-  if (status === "missing" || !program) {
-    return (
-      <Shell>
-        <p className="text-[var(--muted)]">Program not found.</p>
-        <Link href="/" className="mt-4 inline-block text-[var(--accent)]">
-          Back home
-        </Link>
-      </Shell>
-    );
-  }
 
   function save() {
-    if (!program) return;
     const next: Program = {
       ...program,
       updatedAt: new Date().toISOString(),
@@ -74,11 +38,9 @@ export default function ProgramEditorPage() {
   }
 
   function setDay(i: number, day: DayPlan) {
-    setProgram((p) => {
-      if (!p) return p;
-      const days = [...p.days];
-      days[i] = day;
-      return { ...p, days };
+    setProgram({
+      ...program,
+      days: program.days.map((d, idx) => (idx === i ? day : d)),
     });
   }
 
@@ -240,4 +202,50 @@ export default function ProgramEditorPage() {
       </div>
     </Shell>
   );
+}
+
+export default function ProgramEditorPage() {
+  const params = useParams();
+  const router = useRouter();
+  const id = typeof params.id === "string" ? params.id : "";
+  const [program, setProgram] = useState<Program | null>(null);
+  const [status, setStatus] = useState<"loading" | "missing" | "ready">("loading");
+
+  useEffect(() => {
+    if (!id) {
+      router.replace("/");
+      return;
+    }
+    const p = loadState().programs.find((x) => x.id === id);
+    if (!p) {
+      setProgram(null);
+      setStatus("missing");
+      return;
+    }
+    setProgram(JSON.parse(JSON.stringify(p)) as Program);
+    setStatus("ready");
+  }, [id, router]);
+
+  if (!id) return null;
+
+  if (status === "loading") {
+    return (
+      <Shell>
+        <p className="text-[var(--muted)]">Loading…</p>
+      </Shell>
+    );
+  }
+
+  if (status === "missing" || !program) {
+    return (
+      <Shell>
+        <p className="text-[var(--muted)]">Program not found.</p>
+        <Link href="/" className="mt-4 inline-block text-[var(--accent)]">
+          Back home
+        </Link>
+      </Shell>
+    );
+  }
+
+  return <ProgramEditorLoaded program={program} setProgram={setProgram} />;
 }
