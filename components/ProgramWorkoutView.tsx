@@ -73,15 +73,15 @@ export function ProgramWorkoutView({ program, dayIndex, onDayIndexChange }: Prop
         </div>
       </div>
 
-      <article className="rounded-2xl border border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-[#10151e] p-6 shadow-xl shadow-black/20 md:p-8">
-        <header className="mb-8 border-b border-[var(--border)] pb-6">
-          <p className="print-accent-label text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
+      <article className="rounded-2xl border border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-[#10151e] p-6 shadow-xl shadow-black/20 print:border-slate-500 print:bg-white print:shadow-none md:p-8">
+        <header className="mb-8 border-b border-[var(--border)] pb-6 print:border-slate-400">
+          <p className="print-accent-label text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)] print:text-blue-900">
             Session
           </p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--foreground)] md:text-3xl">
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--foreground)] print:text-slate-950 md:text-3xl">
             {activeDay.name}
           </h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">
+          <p className="mt-2 text-sm text-slate-300 print:text-slate-900">
             {activeDay.exercises.length} exercise{activeDay.exercises.length === 1 ? "" : "s"}
           </p>
         </header>
@@ -90,35 +90,37 @@ export function ProgramWorkoutView({ program, dayIndex, onDayIndexChange }: Prop
           {activeDay.exercises.map((ex, i) => (
             <li
               key={ex.id}
-              className="group rounded-xl border border-[var(--border)]/80 bg-[var(--background)]/40 px-5 py-5 transition hover:border-[var(--accent)]/25"
+              className="group rounded-xl border border-[var(--border)]/80 bg-[var(--background)]/40 px-5 py-5 transition hover:border-[var(--accent)]/25 print:border-slate-400 print:bg-slate-100"
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                 <div className="flex gap-4">
                   <span
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-sm font-bold text-[var(--accent)]"
+                    className="print-index-badge flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent)]/15 text-sm font-bold text-[var(--accent)] print:bg-blue-100 print:text-blue-900"
                     aria-hidden
                   >
                     {i + 1}
                   </span>
                   <div>
-                    <h3 className="text-lg font-semibold leading-snug text-[var(--foreground)] md:text-xl">
+                    <h3 className="text-lg font-semibold leading-snug text-[var(--foreground)] print:text-slate-950 md:text-xl">
                       {ex.name || "Exercise"}
                     </h3>
                     {ex.notes ? (
-                      <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{ex.notes}</p>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-300 print:text-slate-800">
+                        {ex.notes}
+                      </p>
                     ) : null}
                   </div>
                 </div>
                 <dl className="flex shrink-0 flex-wrap gap-2 sm:flex-col sm:items-end sm:gap-2">
                   <div className="print-chip rounded-lg bg-white/[0.08] px-3 py-1.5 text-center sm:min-w-[7rem]">
                     <dt className="sr-only">Sets and reps</dt>
-                    <dd className="text-sm font-semibold tabular-nums text-[var(--foreground)]">
+                    <dd className="text-sm font-semibold tabular-nums text-[var(--foreground)] print:text-slate-950">
                       {ex.sets} × {ex.reps}
                     </dd>
                   </div>
-                  <div className="print-chip-muted rounded-lg border border-[var(--border)] px-3 py-1.5 text-center sm:min-w-[7rem]">
+                  <div className="print-chip-muted rounded-lg border border-[var(--border)] px-3 py-1.5 text-center sm:min-w-[7rem] print:border-slate-500">
                     <dt className="sr-only">Rest</dt>
-                    <dd className="text-xs font-medium uppercase tracking-wide text-[var(--muted)]">
+                    <dd className="text-xs font-medium uppercase tracking-wide text-slate-300 print:text-slate-950">
                       Rest {formatRest(ex.restSec)}
                     </dd>
                   </div>

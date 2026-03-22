@@ -27,7 +27,7 @@ body {
   body {
     background: white !important;
     background-image: none !important;
-    color: #111827 !important;
+    color: #020617 !important;
   }
 
   .no-print {
@@ -36,13 +36,17 @@ body {
 
   .print-workout-root {
     max-width: none !important;
-    color: #111827 !important;
   }
 
-  /* Inline Tailwind colors (e.g. text-[var(--muted)]) still win unless overridden */
-  .print-workout-root,
-  .print-workout-root * {
-    color: #111827 !important;
+  /*
+    Utility classes like text-slate-300 can beat .print-workout-root * on specificity.
+    Target the article subtree with !important so print preview stays high-contrast.
+  */
+  .print-workout-root article,
+  .print-workout-root article * {
+    color: #020617 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   .print-workout-root .print-accent-label {
@@ -50,31 +54,43 @@ body {
   }
 
   .print-workout-root article {
-    border: 1px solid #9ca3af !important;
-    background: white !important;
+    border: 2px solid #64748b !important;
+    background: #ffffff !important;
     box-shadow: none !important;
   }
 
-  .print-workout-root h2,
-  .print-workout-root h3 {
-    color: #030712 !important;
+  .print-workout-root article h2,
+  .print-workout-root article h3 {
+    color: #020617 !important;
   }
 
-  .print-workout-root li {
+  .print-workout-root article p,
+  .print-workout-root article dd,
+  .print-workout-root article span:not(.print-accent-label) {
+    color: #0f172a !important;
+  }
+
+  .print-workout-root article li {
     break-inside: avoid;
-    border: 1px solid #d1d5db !important;
-    background: #f9fafb !important;
+    border: 1px solid #94a3b8 !important;
+    background: #f1f5f9 !important;
   }
 
   .print-workout-root .print-chip {
-    background: #e5e7eb !important;
-    color: #111827 !important;
-    border: 1px solid #9ca3af !important;
+    background: #e2e8f0 !important;
+    color: #020617 !important;
+    border: 1px solid #64748b !important;
   }
 
   .print-workout-root .print-chip-muted {
-    background: white !important;
-    color: #374151 !important;
-    border: 1px solid #9ca3af !important;
+    background: #ffffff !important;
+    color: #020617 !important;
+    border: 1px solid #64748b !important;
+  }
+
+  .print-workout-root .print-index-badge {
+    background: #dbeafe !important;
+    color: #1e3a8a !important;
+    border: 1px solid #3b82f6 !important;
   }
 }
