@@ -24,7 +24,12 @@ function parseState(raw: string | null): AppStateV1 {
     if (typeof data.onboardingComplete !== "boolean") return defaultState();
     if (data.profile !== null && !isRecord(data.profile)) return defaultState();
     if (!Array.isArray(data.programs)) return defaultState();
-    return data as AppStateV1;
+    return {
+      version: 1,
+      onboardingComplete: data.onboardingComplete,
+      profile: data.profile as unknown as UserProfile | null,
+      programs: data.programs as unknown as Program[],
+    };
   } catch {
     return defaultState();
   }
