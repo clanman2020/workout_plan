@@ -10,6 +10,9 @@ import type { Equipment, Gender, Goal } from "@/lib/types";
 
 const STEPS = 6;
 
+const onboardingFieldClass =
+  "form-field-dark w-full rounded-xl border border-[var(--border)] px-4 py-3 text-base font-medium outline-none transition focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/30";
+
 export default function OnboardingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
@@ -134,7 +137,7 @@ export default function OnboardingPage() {
 
       {step === 1 ? (
         <fieldset className="space-y-3">
-          <legend className="mb-2 text-sm font-medium">Gender</legend>
+          <legend className="mb-2 text-sm font-medium text-slate-100">Gender</legend>
           {(
             [
               ["woman", "Woman"],
@@ -161,7 +164,7 @@ export default function OnboardingPage() {
 
       {step === 2 ? (
         <div>
-          <label htmlFor="age" className="mb-2 block text-sm font-medium">
+          <label htmlFor="age" className="mb-2 block text-sm font-medium text-slate-100">
             Age
           </label>
           <input
@@ -171,7 +174,7 @@ export default function OnboardingPage() {
             max={100}
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)]/60 px-4 py-3 text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]/50 focus:ring-2 focus:ring-[var(--accent)]/15"
+            className={onboardingFieldClass}
             placeholder="e.g. 32"
           />
         </div>
@@ -179,7 +182,7 @@ export default function OnboardingPage() {
 
       {step === 3 ? (
         <div>
-          <label htmlFor="days" className="mb-2 block text-sm font-medium">
+          <label htmlFor="days" className="mb-2 block text-sm font-medium text-slate-100">
             Days per week you want to train
           </label>
           <select
@@ -188,7 +191,7 @@ export default function OnboardingPage() {
             onChange={(e) =>
               setDaysPerWeek(e.target.value === "" ? "" : Number(e.target.value))
             }
-            className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)]/60 px-4 py-3 text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]/50 focus:ring-2 focus:ring-[var(--accent)]/15"
+            className={onboardingFieldClass}
           >
             <option value="">Choose…</option>
             {[2, 3, 4, 5, 6].map((n) => (
@@ -202,7 +205,7 @@ export default function OnboardingPage() {
 
       {step === 4 ? (
         <div>
-          <label htmlFor="session" className="mb-2 block text-sm font-medium">
+          <label htmlFor="session" className="mb-2 block text-sm font-medium text-slate-100">
             Typical workout length (minutes)
           </label>
           <select
@@ -211,7 +214,7 @@ export default function OnboardingPage() {
             onChange={(e) =>
               setSessionMinutes(e.target.value === "" ? "" : Number(e.target.value))
             }
-            className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)]/60 px-4 py-3 text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]/50 focus:ring-2 focus:ring-[var(--accent)]/15"
+            className={onboardingFieldClass}
           >
             <option value="">Choose…</option>
             <option value={30}>About 30 minutes</option>
@@ -224,7 +227,7 @@ export default function OnboardingPage() {
 
       {step === 5 ? (
         <fieldset className="space-y-3">
-          <legend className="mb-2 text-sm font-medium">Equipment you can use</legend>
+          <legend className="mb-2 text-sm font-medium text-slate-100">Equipment you can use</legend>
           {(
             [
               ["bodyweight", "Bodyweight only"],
@@ -254,7 +257,7 @@ export default function OnboardingPage() {
 
       {step === 6 ? (
         <fieldset className="space-y-3">
-          <legend className="mb-2 text-sm font-medium">Goals</legend>
+          <legend className="mb-2 text-sm font-medium text-slate-100">Goals</legend>
           {(
             [
               ["muscle", "Muscle building / strength"],

@@ -23,6 +23,29 @@ body {
   background-attachment: fixed;
 }
 
+/* Dark native selects / options (Windows + Chrome often default to light menus) */
+select.form-field-dark {
+  color-scheme: dark;
+  background-color: #12171f;
+  color: #f1f5f9;
+}
+
+select.form-field-dark option {
+  background-color: #12171f;
+  color: #f1f5f9;
+}
+
+input.form-field-dark[type="number"],
+input.form-field-dark[type="text"] {
+  color-scheme: dark;
+  background-color: #12171f;
+  color: #f1f5f9;
+}
+
+input.form-field-dark::placeholder {
+  color: #94a3b8;
+}
+
 @media print {
   body {
     background: white !important;
