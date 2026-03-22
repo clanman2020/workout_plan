@@ -3,17 +3,55 @@
 @tailwind utilities;
 
 :root {
-  --background: #0c0f14;
-  --foreground: #e8eaef;
-  --muted: #8b93a7;
-  --card: #141922;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
-  --border: #252d3d;
+  --background: #080a0e;
+  --foreground: #eef0f4;
+  --muted: #8b94a8;
+  --card: #12171f;
+  --accent: #4f8cff;
+  --accent-hover: #3b7af0;
+  --border: #222a38;
+  --glow: rgba(79, 140, 255, 0.12);
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: ui-sans-serif, system-ui, sans-serif;
+  background-image:
+    radial-gradient(ellipse 120% 80% at 50% -30%, var(--glow), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(79, 140, 255, 0.06), transparent 50%);
+  background-attachment: fixed;
+}
+
+@media print {
+  body {
+    background: white !important;
+    background-image: none !important;
+    color: #111 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-workout-root {
+    max-width: none !important;
+  }
+
+  .print-workout-root article {
+    border: 1px solid #ccc !important;
+    background: white !important;
+    box-shadow: none !important;
+    color: #111 !important;
+  }
+
+  .print-workout-root h2,
+  .print-workout-root h3 {
+    color: #111 !important;
+  }
+
+  .print-workout-root li {
+    break-inside: avoid;
+    border-color: #ddd !important;
+    background: #fafafa !important;
+  }
 }

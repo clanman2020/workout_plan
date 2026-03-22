@@ -98,7 +98,9 @@ export default function OnboardingPage() {
   return (
     <Shell>
       <div className="mb-6 flex items-center justify-between gap-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Your plan</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-[var(--foreground)]">
+          Your plan
+        </h1>
         {showHomeLink ? (
           <Link
             href="/"
@@ -108,10 +110,21 @@ export default function OnboardingPage() {
           </Link>
         ) : null}
       </div>
-      <p className="mb-6 text-sm text-[var(--muted)]">
+      <p className="mb-4 text-sm leading-relaxed text-[var(--muted)]">
         Step {step} of {STEPS} — answer a few questions and we will build a starter workout
         program. Everything stays in your browser.
       </p>
+
+      <div className="mb-8 flex gap-1.5" aria-hidden>
+        {Array.from({ length: STEPS }, (_, i) => (
+          <div
+            key={i}
+            className={`h-1.5 flex-1 rounded-full transition ${
+              i < step ? "bg-[var(--accent)]" : "bg-[var(--border)]"
+            }`}
+          />
+        ))}
+      </div>
 
       {error ? (
         <p className="mb-4 rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm text-red-200">
@@ -131,7 +144,7 @@ export default function OnboardingPage() {
           ).map(([value, label]) => (
             <label
               key={value}
-              className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3"
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] bg-gradient-to-br from-[var(--card)] to-[#10151e] px-4 py-3.5 transition hover:border-[var(--accent)]/30"
             >
               <input
                 type="radio"
@@ -158,7 +171,7 @@ export default function OnboardingPage() {
             max={100}
             value={age}
             onChange={(e) => setAge(e.target.value)}
-            className="w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)]/60 px-4 py-3 text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]/50 focus:ring-2 focus:ring-[var(--accent)]/15"
             placeholder="e.g. 32"
           />
         </div>
@@ -175,7 +188,7 @@ export default function OnboardingPage() {
             onChange={(e) =>
               setDaysPerWeek(e.target.value === "" ? "" : Number(e.target.value))
             }
-            className="w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)]/60 px-4 py-3 text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]/50 focus:ring-2 focus:ring-[var(--accent)]/15"
           >
             <option value="">Choose…</option>
             {[2, 3, 4, 5, 6].map((n) => (
@@ -198,7 +211,7 @@ export default function OnboardingPage() {
             onChange={(e) =>
               setSessionMinutes(e.target.value === "" ? "" : Number(e.target.value))
             }
-            className="w-full rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3 text-[var(--foreground)] outline-none focus:border-[var(--accent)]"
+            className="w-full rounded-xl border border-[var(--border)] bg-[var(--background)]/60 px-4 py-3 text-[var(--foreground)] outline-none transition focus:border-[var(--accent)]/50 focus:ring-2 focus:ring-[var(--accent)]/15"
           >
             <option value="">Choose…</option>
             <option value={30}>About 30 minutes</option>
@@ -221,7 +234,7 @@ export default function OnboardingPage() {
           ).map(([value, label]) => (
             <label
               key={value}
-              className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3"
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] bg-gradient-to-br from-[var(--card)] to-[#10151e] px-4 py-3.5 transition hover:border-[var(--accent)]/30"
             >
               <input
                 type="checkbox"
@@ -250,7 +263,7 @@ export default function OnboardingPage() {
           ).map(([value, label]) => (
             <label
               key={value}
-              className="flex cursor-pointer items-center gap-3 rounded-lg border border-[var(--border)] bg-[var(--card)] px-4 py-3"
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-[var(--border)] bg-gradient-to-br from-[var(--card)] to-[#10151e] px-4 py-3.5 transition hover:border-[var(--accent)]/30"
             >
               <input
                 type="checkbox"
@@ -264,12 +277,12 @@ export default function OnboardingPage() {
         </fieldset>
       ) : null}
 
-      <div className="mt-8 flex flex-wrap gap-3">
+      <div className="mt-10 flex flex-wrap gap-3">
         {step > 1 ? (
           <button
             type="button"
             onClick={back}
-            className="rounded-lg border border-[var(--border)] px-4 py-2 text-sm font-medium hover:bg-white/5"
+            className="rounded-xl border border-[var(--border)] px-5 py-2.5 text-sm font-semibold transition hover:bg-white/[0.04]"
           >
             Back
           </button>
@@ -278,7 +291,7 @@ export default function OnboardingPage() {
           <button
             type="button"
             onClick={next}
-            className="rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--accent-hover)]"
+            className="rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:bg-[var(--accent-hover)]"
           >
             Next
           </button>
@@ -286,7 +299,7 @@ export default function OnboardingPage() {
           <button
             type="button"
             onClick={finish}
-            className="rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-medium text-white hover:bg-[var(--accent-hover)]"
+            className="rounded-xl bg-[var(--accent)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:bg-[var(--accent-hover)]"
           >
             Generate my workout
           </button>
