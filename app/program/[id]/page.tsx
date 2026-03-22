@@ -63,6 +63,7 @@ export default function ProgramEditorPage() {
   }
 
   function save() {
+    if (!program) return;
     const next: Program = {
       ...program,
       updatedAt: new Date().toISOString(),
