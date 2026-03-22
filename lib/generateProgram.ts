@@ -40,50 +40,50 @@ function exercisesPerSession(sessionMinutes: number, age: number): number {
   return n;
 }
 
-type ExerciseTemplate = { name: string; compound: boolean };
+type ExerciseTemplate = { name: string; compound: boolean; note?: string };
 
 const TEMPLATES: Record<Tier, Record<string, ExerciseTemplate[]>> = {
   bodyweight: {
     full_push: [
       { name: "Push-up", compound: true },
+      { name: "Decline push-up (feet elevated)", compound: true, note: "Hands on floor, feet on bench or step." },
       { name: "Pike push-up", compound: true },
-      { name: "Triceps bench dip (chair)", compound: false },
+      { name: "Triceps dip (bench or chair)", compound: true },
       { name: "Side plank", compound: false },
     ],
     full_pull: [
-      { name: "Inverted row (table)", compound: true },
+      { name: "Inverted row (table or bar)", compound: true },
+      { name: "Prone Y-T-W raise", compound: false, note: "Light; move shoulder blades first." },
       { name: "Superman hold", compound: false },
       { name: "Dead bug", compound: false },
-      { name: "Bird dog", compound: false },
     ],
     full_legs: [
       { name: "Air squat", compound: true },
       { name: "Reverse lunge", compound: true },
+      { name: "Bulgarian split squat (rear foot elevated)", compound: true },
       { name: "Glute bridge", compound: false },
-      { name: "Calf raise", compound: false },
-    ],
-    full_core: [
-      { name: "Plank", compound: true },
-      { name: "Bicycle crunch", compound: false },
-      { name: "Lying leg raise", compound: false },
+      { name: "Single-leg calf raise", compound: false },
     ],
     upper: [
       { name: "Push-up", compound: true },
-      { name: "Inverted row (table)", compound: true },
+      { name: "Inverted row", compound: true },
       { name: "Pike push-up", compound: true },
-      { name: "Triceps bench dip", compound: false },
+      { name: "Diamond push-up", compound: false },
+      { name: "Plank shoulder tap", compound: false },
     ],
     lower: [
       { name: "Air squat", compound: true },
-      { name: "Reverse lunge", compound: true },
+      { name: "Walking lunge", compound: true },
       { name: "Glute bridge", compound: true },
-      { name: "Single-leg RDL (supported)", compound: false },
+      { name: "Wall sit", compound: false, note: "30–45s hold." },
+      { name: "Calf raise", compound: false },
     ],
   },
   dumbbells: {
     push: [
-      { name: "Dumbbell bench / floor press", compound: true },
+      { name: "Dumbbell bench or floor press", compound: true },
       { name: "Dumbbell shoulder press", compound: true },
+      { name: "Incline DB press (if bench)", compound: true },
       { name: "Lateral raise", compound: false },
       { name: "Overhead triceps extension", compound: false },
     ],
@@ -91,157 +91,294 @@ const TEMPLATES: Record<Tier, Record<string, ExerciseTemplate[]>> = {
       { name: "Single-arm dumbbell row", compound: true },
       { name: "Chest-supported row (incline bench)", compound: true },
       { name: "Hammer curl", compound: false },
-      { name: "Reverse fly", compound: false },
+      { name: "Reverse fly (bent-over)", compound: false },
+      { name: "Farmer carry (heavy walk)", compound: true, note: "Short distance, tall posture." },
     ],
     legs: [
       { name: "Goblet squat", compound: true },
       { name: "Dumbbell Romanian deadlift", compound: true },
-      { name: "Forward lunge", compound: true },
-      { name: "Calf raise (DB)", compound: false },
+      { name: "Forward lunge (DB)", compound: true },
+      { name: "Step-up (DB)", compound: true },
+      { name: "Calf raise holding DBs", compound: false },
     ],
-    full: [
+    full_a: [
       { name: "Goblet squat", compound: true },
-      { name: "Dumbbell row", compound: true },
+      { name: "Dumbbell row (both arms)", compound: true },
       { name: "Dumbbell floor press", compound: true },
-      { name: "Romanian deadlift", compound: false },
-      { name: "Plank row (renegade, light)", compound: true },
+      { name: "Romanian deadlift", compound: true },
+      { name: "Plank (or side plank)", compound: false },
+    ],
+    full_b: [
+      { name: "Forward lunge", compound: true },
+      { name: "Chest-supported row", compound: true },
+      { name: "Shoulder press", compound: true },
+      { name: "Single-leg RDL (supported)", compound: true, note: "Light DB; balance with wall if needed." },
+      { name: "Hammer curl", compound: false },
+    ],
+    full_c: [
+      { name: "Step-up", compound: true },
+      { name: "Single-arm row", compound: true },
+      { name: "Incline or flat DB press", compound: true },
+      { name: "Goblet squat (tempo 3-1-1)", compound: true, note: "Lower slowly." },
+      { name: "Reverse fly", compound: false },
     ],
   },
   gym: {
     push: [
       { name: "Barbell bench press", compound: true },
-      { name: "Overhead press", compound: true },
+      { name: "Overhead press (barbell or DB)", compound: true },
       { name: "Incline dumbbell press", compound: true },
+      { name: "Cable fly or pec deck", compound: false },
       { name: "Lateral raise", compound: false },
-      { name: "Cable triceps pushdown", compound: false },
+      { name: "Triceps pushdown", compound: false },
     ],
     pull: [
-      { name: "Lat pulldown", compound: true },
+      { name: "Lat pulldown or pull-up", compound: true },
       { name: "Seated cable row", compound: true },
+      { name: "Chest-supported machine row", compound: true },
       { name: "Face pull", compound: false },
-      { name: "Barbell or EZ curl", compound: false },
+      { name: "EZ-bar or cable curl", compound: false },
     ],
     legs: [
+      { name: "Back squat or safety bar squat", compound: true },
+      { name: "Romanian deadlift", compound: true },
+      { name: "Leg press", compound: true },
+      { name: "Leg curl", compound: false },
+      { name: "Leg extension", compound: false },
+      { name: "Standing or seated calf raise", compound: false },
+    ],
+    upper_a: [
+      { name: "Bench press", compound: true },
+      { name: "Lat pulldown", compound: true },
+      { name: "Seated row", compound: true },
+      { name: "Overhead press", compound: true },
+      { name: "Lateral raise", compound: false },
+    ],
+    upper_b: [
+      { name: "Incline dumbbell press", compound: true },
+      { name: "One-arm dumbbell row", compound: true },
+      { name: "Cable row (neutral grip)", compound: true },
+      { name: "Machine shoulder press", compound: true },
+      { name: "Rear delt fly", compound: false },
+    ],
+    lower_a: [
       { name: "Back squat or leg press", compound: true },
       { name: "Romanian deadlift", compound: true },
       { name: "Leg curl", compound: false },
-      { name: "Leg extension", compound: false },
-      { name: "Standing calf raise", compound: false },
-    ],
-    upper: [
-      { name: "Bench press", compound: true },
-      { name: "Lat pulldown", compound: true },
-      { name: "Row", compound: true },
-      { name: "Overhead press", compound: true },
-    ],
-    lower: [
-      { name: "Squat or leg press", compound: true },
-      { name: "Romanian deadlift", compound: true },
-      { name: "Leg curl", compound: false },
+      { name: "Walking lunge (DB optional)", compound: true },
       { name: "Calf raise", compound: false },
+    ],
+    lower_b: [
+      { name: "Front squat or hack squat", compound: true },
+      { name: "Hip thrust or glute bridge (bar)", compound: true },
+      { name: "Bulgarian split squat", compound: true },
+      { name: "Leg extension", compound: false },
+      { name: "Seated calf raise", compound: false },
     ],
   },
 };
 
-function takeTemplates(
+const FINISHER: Record<Tier, ExerciseTemplate> = {
+  gym: {
+    name: "Bike, rower, or brisk incline walk",
+    compound: false,
+    note: "Steady effort 8–12 min; optional if short on time.",
+  },
+  dumbbells: {
+    name: "DB complex: squat → press → RDL (light)",
+    compound: true,
+    note: "3 rounds, 8 reps each move, minimal rest between.",
+  },
+  bodyweight: {
+    name: "Circuit: jumping jacks, mountain climbers, squat jumps",
+    compound: false,
+    note: "30s each × 3 rounds; stop if form breaks down.",
+  },
+};
+
+function warmupExercises(): Exercise[] {
+  return [
+    {
+      id: createId(),
+      name: "Warm-up: easy movement",
+      sets: 1,
+      reps: "5–8 min",
+      restSec: 0,
+      notes: "Walk, bike, or light mobility until you feel warm.",
+    },
+    {
+      id: createId(),
+      name: "Ramp-up sets on your first big lift",
+      sets: 2,
+      reps: "6–10",
+      restSec: 45,
+      notes: "Add weight gradually; stop before failure.",
+    },
+  ];
+}
+
+function takeTemplatesRotated(
   list: ExerciseTemplate[],
   count: number,
   goals: Goal[],
+  rotation: number,
 ): Exercise[] {
+  if (list.length === 0 || count <= 0) return [];
   const repsMain = repRange(goals, true);
   const repsAccessory = repRange(goals, false);
-  const slice = list.slice(0, Math.min(count, list.length));
+  const len = list.length;
+  const start = ((rotation % len) + len) % len;
+  const ordered: ExerciseTemplate[] = [];
+  for (let i = 0; i < len; i++) {
+    ordered.push(list[(start + i) % len]!);
+  }
+  const slice = ordered.slice(0, Math.min(count, ordered.length));
   return slice.map((t, i) => ({
     id: createId(),
     name: t.name,
     sets: setsForGoal(goals, i),
     reps: t.compound ? repsMain : repsAccessory,
     restSec: restSec(goals, t.compound),
+    notes: t.note,
   }));
 }
 
-function dayFromKey(
+function appendFinisher(
+  exercises: Exercise[],
+  tier: Tier,
+  goals: Goal[],
+): Exercise[] {
+  if (!goals.includes("weight_loss")) return exercises;
+  const t = FINISHER[tier];
+  const reps = repRange(goals, false);
+  return [
+    ...exercises,
+    {
+      id: createId(),
+      name: t.name,
+      sets: goals.includes("muscle") ? 2 : 3,
+      reps,
+      restSec: 45,
+      notes: t.note,
+    },
+  ];
+}
+
+function buildDay(
   tier: Tier,
   key: string,
   label: string,
-  count: number,
+  totalMainSlots: number,
   goals: Goal[],
+  rotation: number,
+  includeFinisher: boolean,
 ): DayPlan {
+  const warm = warmupExercises();
+  const mainBudget = Math.max(3, totalMainSlots - warm.length);
   const bank = TEMPLATES[tier][key];
-  if (!bank) {
-    return { id: createId(), name: label, exercises: [] };
+  let main: Exercise[] = [];
+  if (bank) {
+    main = takeTemplatesRotated(bank, mainBudget, goals, rotation);
+  }
+  let all = [...warm, ...main];
+  if (includeFinisher) {
+    all = appendFinisher(all, tier, goals);
   }
   return {
     id: createId(),
     name: label,
-    exercises: takeTemplates(bank, count, goals),
+    exercises: all,
   };
+}
+
+function programTitle(profile: UserProfile, tier: Tier): string {
+  const tierLabel =
+    tier === "gym" ? "Gym" : tier === "dumbbells" ? "Dumbbells" : "Bodyweight";
+  return `${profile.daysPerWeek} days · ${tierLabel}`;
 }
 
 function buildDays(profile: UserProfile): DayPlan[] {
   const tier = pickTier(profile.equipment);
-  const n = exercisesPerSession(profile.sessionMinutes, profile.age);
+  const slots = exercisesPerSession(profile.sessionMinutes, profile.age);
   const d = Math.min(6, Math.max(2, profile.daysPerWeek));
   const g = profile.goals;
+  const finisherDays = g.includes("weight_loss") && d >= 3;
 
   if (tier === "bodyweight") {
     if (d <= 2) {
       return [
-        dayFromKey(tier, "upper", "Full body A", n, g),
-        dayFromKey(tier, "lower", "Full body B", n, g),
+        buildDay(tier, "upper", "Full body A", slots, g, 0, false),
+        buildDay(tier, "lower", "Full body B", slots, g, 2, false),
       ];
     }
     if (d === 3) {
       return [
-        dayFromKey(tier, "full_push", "Full body — push & legs", n, g),
-        dayFromKey(tier, "full_pull", "Full body — pull & core", n, g),
-        dayFromKey(tier, "full_legs", "Full body — legs & core", n, g),
+        buildDay(tier, "full_push", "Push & core", slots, g, 0, false),
+        buildDay(tier, "full_pull", "Pull & posture", slots, g, 1, false),
+        buildDay(tier, "full_legs", "Legs & hips", slots, g, 2, finisherDays),
       ];
     }
     if (d === 4) {
       return [
-        dayFromKey(tier, "upper", "Upper", n, g),
-        dayFromKey(tier, "lower", "Lower", n, g),
-        dayFromKey(tier, "upper", "Upper (variation)", n, g),
-        dayFromKey(tier, "lower", "Lower (variation)", n, g),
+        buildDay(tier, "upper", "Upper A", slots, g, 0, false),
+        buildDay(tier, "lower", "Lower A", slots, g, 1, false),
+        buildDay(tier, "upper", "Upper B", slots, g, 3, false),
+        buildDay(tier, "lower", "Lower B", slots, g, 4, false),
       ];
     }
-    const cycle = [
-      dayFromKey(tier, "full_push", "Push", n, g),
-      dayFromKey(tier, "full_pull", "Pull", n, g),
-      dayFromKey(tier, "full_legs", "Legs", n, g),
-    ];
     const out: DayPlan[] = [];
-    for (let i = 0; i < d; i++) out.push({ ...cycle[i % 3], id: createId(), name: `${cycle[i % 3].name} (${Math.floor(i / 3) + 1})` });
+    for (let i = 0; i < d; i++) {
+      const kind = i % 3;
+      const key = kind === 0 ? "full_push" : kind === 1 ? "full_pull" : "full_legs";
+      const label = kind === 0 ? "Push" : kind === 1 ? "Pull" : "Legs";
+      const week = Math.floor(i / 3) + 1;
+      out.push(
+        buildDay(
+          tier,
+          key,
+          d > 3 ? `${label} (week ${week})` : label,
+          slots,
+          g,
+          i * 2,
+          finisherDays && kind === 2,
+        ),
+      );
+    }
     return out;
   }
 
   if (tier === "dumbbells") {
     if (d <= 3) {
-      const keys = ["full", "full", "full"] as const;
-      return keys.slice(0, d).map((k, i) => dayFromKey(tier, k, `Full body ${i + 1}`, n, g));
+      const keys = ["full_a", "full_b", "full_c"] as const;
+      return keys.slice(0, d).map((k, i) =>
+        buildDay(tier, k, `Full body ${i + 1}`, slots, g, i * 3, finisherDays && i === d - 1),
+      );
     }
     if (d === 4) {
       return [
-        dayFromKey(tier, "push", "Push", n, g),
-        dayFromKey(tier, "pull", "Pull", n, g),
-        dayFromKey(tier, "legs", "Legs", n, g),
-        dayFromKey(tier, "full", "Full body", n, g),
+        buildDay(tier, "push", "Push", slots, g, 0, false),
+        buildDay(tier, "pull", "Pull", slots, g, 1, false),
+        buildDay(tier, "legs", "Legs", slots, g, 2, false),
+        buildDay(tier, "full_a", "Full body (extra)", slots, g, 4, true),
       ];
     }
-    const ppl = [
-      dayFromKey(tier, "push", "Push", n, g),
-      dayFromKey(tier, "pull", "Pull", n, g),
-      dayFromKey(tier, "legs", "Legs", n, g),
-    ];
     const out: DayPlan[] = [];
     for (let i = 0; i < d; i++) {
-      const base = ppl[i % 3];
-      out.push({
-        ...base,
-        id: createId(),
-        name: d > 3 ? `${base.name} (${Math.floor(i / 3) + 1})` : base.name,
-      });
+      const kind = i % 3;
+      const key = kind === 0 ? "push" : kind === 1 ? "pull" : "legs";
+      const label = kind === 0 ? "Push" : kind === 1 ? "Pull" : "Legs";
+      const week = Math.floor(i / 3) + 1;
+      out.push(
+        buildDay(
+          tier,
+          key,
+          `${label} (block ${week})`,
+          slots,
+          g,
+          i * 2,
+          finisherDays && kind === 2,
+        ),
+      );
     }
     return out;
   }
@@ -249,41 +386,46 @@ function buildDays(profile: UserProfile): DayPlan[] {
   // gym
   if (d <= 3) {
     return [
-      dayFromKey(tier, "push", "Push", n, g),
-      dayFromKey(tier, "pull", "Pull", n, g),
-      dayFromKey(tier, "legs", "Legs", n, g),
+      buildDay(tier, "push", "Push", slots, g, 0, false),
+      buildDay(tier, "pull", "Pull", slots, g, 2, false),
+      buildDay(tier, "legs", "Legs", slots, g, 4, finisherDays),
     ];
   }
   if (d === 4) {
     return [
-      dayFromKey(tier, "upper", "Upper A", n, g),
-      dayFromKey(tier, "lower", "Lower A", n, g),
-      dayFromKey(tier, "upper", "Upper B", n, g),
-      dayFromKey(tier, "lower", "Lower B", n, g),
+      buildDay(tier, "upper_a", "Upper A", slots, g, 0, false),
+      buildDay(tier, "lower_a", "Lower A", slots, g, 1, false),
+      buildDay(tier, "upper_b", "Upper B", slots, g, 2, false),
+      buildDay(tier, "lower_b", "Lower B", slots, g, 3, true),
     ];
   }
-  const ppl = [
-    dayFromKey(tier, "push", "Push", n, g),
-    dayFromKey(tier, "pull", "Pull", n, g),
-    dayFromKey(tier, "legs", "Legs", n, g),
-  ];
   const out: DayPlan[] = [];
   for (let i = 0; i < d; i++) {
-    const base = ppl[i % 3];
-    out.push({
-      ...base,
-      id: createId(),
-      name: `${base.name} (${Math.floor(i / 3) + 1})`,
-    });
+    const kind = i % 3;
+    const key = kind === 0 ? "push" : kind === 1 ? "pull" : "legs";
+    const label = kind === 0 ? "Push" : kind === 1 ? "Pull" : "Legs";
+    const week = Math.floor(i / 3) + 1;
+    out.push(
+      buildDay(
+        tier,
+        key,
+        `${label} (block ${week})`,
+        slots,
+        g,
+        i * 2 + week,
+        finisherDays && kind === 2,
+      ),
+    );
   }
   return out;
 }
 
 export function generateProgram(profile: UserProfile): Program {
   const now = new Date().toISOString();
+  const tier = pickTier(profile.equipment);
   return {
     id: createId(),
-    name: "My generated plan",
+    name: programTitle(profile, tier),
     createdAt: now,
     updatedAt: now,
     days: buildDays(profile),

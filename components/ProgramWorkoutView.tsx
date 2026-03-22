@@ -75,7 +75,7 @@ export function ProgramWorkoutView({ program, dayIndex, onDayIndexChange }: Prop
 
       <article className="rounded-2xl border border-[var(--border)] bg-gradient-to-b from-[var(--card)] to-[#10151e] p-6 shadow-xl shadow-black/20 md:p-8">
         <header className="mb-8 border-b border-[var(--border)] pb-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
+          <p className="print-accent-label text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
             Session
           </p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--foreground)] md:text-3xl">
@@ -110,13 +110,13 @@ export function ProgramWorkoutView({ program, dayIndex, onDayIndexChange }: Prop
                   </div>
                 </div>
                 <dl className="flex shrink-0 flex-wrap gap-2 sm:flex-col sm:items-end sm:gap-2">
-                  <div className="rounded-lg bg-white/[0.06] px-3 py-1.5 text-center sm:min-w-[7rem]">
+                  <div className="print-chip rounded-lg bg-white/[0.08] px-3 py-1.5 text-center sm:min-w-[7rem]">
                     <dt className="sr-only">Sets and reps</dt>
                     <dd className="text-sm font-semibold tabular-nums text-[var(--foreground)]">
                       {ex.sets} × {ex.reps}
                     </dd>
                   </div>
-                  <div className="rounded-lg border border-[var(--border)] px-3 py-1.5 text-center sm:min-w-[7rem]">
+                  <div className="print-chip-muted rounded-lg border border-[var(--border)] px-3 py-1.5 text-center sm:min-w-[7rem]">
                     <dt className="sr-only">Rest</dt>
                     <dd className="text-xs font-medium uppercase tracking-wide text-[var(--muted)]">
                       Rest {formatRest(ex.restSec)}

@@ -4,8 +4,9 @@
 
 :root {
   --background: #080a0e;
-  --foreground: #eef0f4;
-  --muted: #8b94a8;
+  --foreground: #f0f2f7;
+  /* Muted: lighter than before for readability on dark UI */
+  --muted: #a8b3c9;
   --card: #12171f;
   --accent: #4f8cff;
   --accent-hover: #3b7af0;
@@ -26,7 +27,7 @@ body {
   body {
     background: white !important;
     background-image: none !important;
-    color: #111 !important;
+    color: #111827 !important;
   }
 
   .no-print {
@@ -35,23 +36,45 @@ body {
 
   .print-workout-root {
     max-width: none !important;
+    color: #111827 !important;
+  }
+
+  /* Inline Tailwind colors (e.g. text-[var(--muted)]) still win unless overridden */
+  .print-workout-root,
+  .print-workout-root * {
+    color: #111827 !important;
+  }
+
+  .print-workout-root .print-accent-label {
+    color: #1e3a8a !important;
   }
 
   .print-workout-root article {
-    border: 1px solid #ccc !important;
+    border: 1px solid #9ca3af !important;
     background: white !important;
     box-shadow: none !important;
-    color: #111 !important;
   }
 
   .print-workout-root h2,
   .print-workout-root h3 {
-    color: #111 !important;
+    color: #030712 !important;
   }
 
   .print-workout-root li {
     break-inside: avoid;
-    border-color: #ddd !important;
-    background: #fafafa !important;
+    border: 1px solid #d1d5db !important;
+    background: #f9fafb !important;
+  }
+
+  .print-workout-root .print-chip {
+    background: #e5e7eb !important;
+    color: #111827 !important;
+    border: 1px solid #9ca3af !important;
+  }
+
+  .print-workout-root .print-chip-muted {
+    background: white !important;
+    color: #374151 !important;
+    border: 1px solid #9ca3af !important;
   }
 }
